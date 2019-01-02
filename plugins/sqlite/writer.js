@@ -7,7 +7,7 @@ var util = require('../../core/util');
 var log = require('../../core/log');
 
 var Store = function(done, pluginMeta) {
-  _.bindAll(this);
+  _.bindAll(this, ['upsertTables']);
   this.done = done;
 
   this.db = sqlite.initDB(false);
@@ -42,10 +42,11 @@ Store.prototype.upsertTables = function() {
   ];
 
   var next = _.after(_.size(createQueries), this.done);
+  var db = this.db;
 
   _.each(createQueries, function(q) {
-    this.db.run(q, next);
-  }, this);
+    db.run(q, next);
+  });
 }
 
 Store.prototype.writeCandles = function() {

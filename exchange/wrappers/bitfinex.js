@@ -9,7 +9,7 @@ const retry = require('../exchangeUtils').retry;
 const marketData = require('./bitfinex-markets.json');
 
 var Trader = function(config) {
-  _.bindAll(this);
+  _.bindAll(this, ['handleResponse']);
   if(_.isObject(config)) {
     this.key = config.key;
     this.secret = config.secret;
@@ -20,7 +20,7 @@ var Trader = function(config) {
   this.asset = config.asset;
   this.currency = config.currency;
   this.pair = this.asset + this.currency;
-  this.bitfinex = new Bitfinex.RESTv1({apiKey: this.key, apiSecret: this.secret, transform: true});
+  this.bitfinex = new Bitfinex({apiKey: this.key, apiSecret: this.secret, transform: true}).rest(2);
 
   this.interval = 4000;
 }

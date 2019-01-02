@@ -19,10 +19,10 @@ Fetcher.prototype.getTrades = function(upto, callback, descending) {
     if (_.isArray(data)) {
       trades = _.map(data, function(trade) {
         return {
-          tid: trade.ID,
-          date: moment(trade.MTS).format('X'),
-          price: +trade.PRICE,
-          amount: +Math.abs(trade.AMOUNT),
+          tid: trade.id,
+          date: moment(trade.mts).format('X'),
+          price: +trade.price,
+          amount: +Math.abs(trade.amount),
         };
       });
     }
@@ -31,14 +31,16 @@ Fetcher.prototype.getTrades = function(upto, callback, descending) {
   };
 
   let path = 'trades/t' + this.pair + '/hist';
+  let start = null, end = null;
+  
   if (upto) {
-    let start = moment(upto).subtract(1, 'd').valueOf();
-    let end = moment(upto).valueOf();
-    path += `?limit=1000&start=${start}&end=${end}`;
+    start = moment(upto).subtract(1, 'd').valueOf();
+    end = moment(upto).valueOf();
+    path += `?limit=1000&sort=-1&start=${start}&end=${end}`;
   }
 
   log.debug('Querying trades with: ' + path);
-  const fetch = cb => this.bitfinex.makePublicRequest(path, this.handleResponse('getTrades', cb));
+  const fetch = cb => this.bitfinex.trades('t' + this.pair, start, end, 1000, -1, this.handleResponse('getTrades', cb));
   retry(null, fetch, handle);
 };
 
@@ -61,7 +63,7 @@ const ITERATING_STRIDE = 2;
 var stride = ITERATING_STRIDE;
 
 var fetcher = new Fetcher(config.watch);
-fetcher.bitfinex = new Bitfinex(null, null, { version: 2, transform: true }).rest;
+fetcher.bitfinex = new Bitfinex().rest(2, { transform: true });
 
 var retryCritical = {
   retries: 10,

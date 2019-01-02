@@ -21,6 +21,7 @@ const nodeCommand = _.last(process.argv[1].split('/'));
 const isDevServer = nodeCommand === 'server' || nodeCommand === 'server.js';
 
 wss.on('connection', ws => {
+  console.log('[DEBUG] WS Client connected')
   ws.isAlive = true;
   ws.on('pong', () => {
     ws.isAlive = true;
@@ -30,6 +31,10 @@ wss.on('connection', ws => {
     console.error(new Date, '[WS] connection error:', e);
   });
 });
+
+wss.on('error', ws => {
+  console.log('[DEBUG] Websocket Error!')
+})
 
 
 setInterval(() => {
