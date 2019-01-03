@@ -23,7 +23,7 @@ if(!to.isValid())
 
 var Market = function() {
 
-  _.bindAll(this);
+  _.bindAll(this, ['push', 'processCandles']);
   this.pushing = false;
   this.ended = false;
   this.closed = false;
@@ -89,10 +89,10 @@ Market.prototype.processCandles = function(err, candles) {
     log.warn(`Simulation based on incomplete market data (${this.batchSize - amount} missing between ${from} and ${to}).`);
   }
 
-  _.each(candles, function(c, i) {
+  _.each(candles, (c, i) => {
     c.start = moment.unix(c.start);
     this.push(c);
-  }, this);
+  });
 
   this.pushing = false;
 

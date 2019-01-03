@@ -51,10 +51,10 @@ var Base = function(settings) {
   this._currentDirection;
 
   // make sure we have all methods
-  _.each(['init', 'check'], function(fn) {
+  _.each(['init', 'check'], fn => {
     if(!this[fn])
       util.die('No ' + fn + ' function in this strategy found.')
-  }, this);
+  });
 
   if(!this.update)
     this.update = function() {};
@@ -227,7 +227,7 @@ Base.prototype.addTulipIndicator = function(name, type, parameters) {
 }
 
 Base.prototype.addIndicator = function(name, type, parameters) {
-  if(!_.contains(allowedIndicators, type))
+  if(!_.includes(allowedIndicators, type))
     util.die('I do not know the indicator ' + type);
 
   if(this.setup)

@@ -12,7 +12,7 @@ var moment = require('moment');
 var isLeecher = config.market && config.market.type === 'leech';
 
 var Actor = function(done) {
-  _.bindAll(this);
+  _.bindAll(this, ['relayAdvice', 'processTradeCompleted']);
 
   this.done = done;
 
