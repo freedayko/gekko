@@ -57,7 +57,7 @@ if(config.debug && mode !== 'importer') {
     _.each(this.candleConsumers, function(c) {
       at = c.meta.name;
       c.processCandle(chunk, flushEvents);
-    }, this);
+    });
   }
 } else {
   // skip decoration
@@ -72,7 +72,7 @@ if(config.debug && mode !== 'importer') {
     });
     _.each(this.candleConsumers, function(c) {
       c.processCandle(chunk, flushEvents);
-    }, this);
+    });
   }
 }
 

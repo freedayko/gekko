@@ -84,21 +84,21 @@ CandleCreator.prototype.write = function(batch) {
 CandleCreator.prototype.filter = function(trades) {
   // make sure we only include trades more recent
   // than the previous emitted candle
-  return _.filter(trades, function(trade) {
+  return _.filter(trades, trade => {
     return trade.date > this.threshold;
-  }, this);
+  });
 }
 
 // put each trade in a per minute bucket
 CandleCreator.prototype.fillBuckets = function(trades) {
-  _.each(trades, function(trade) {
+  _.each(trades, trade => {
     var minute = trade.date.format('YYYY-MM-DD HH:mm');
 
     if(!(minute in this.buckets))
       this.buckets[minute] = [];
 
     this.buckets[minute].push(trade);
-  }, this);
+  });
 
   this.lastTrade = _.last(trades);
 }
@@ -112,7 +112,7 @@ CandleCreator.prototype.calculateCandles = function() {
     // create a string referencing the minute this trade happened in
     var lastMinute = this.lastTrade.date.format('YYYY-MM-DD HH:mm');
 
-  var candles = _.map(this.buckets, function(bucket, name) {
+  var candles = _.map(this.buckets, (bucket, name) => {
     var candle = this.calculateCandle(bucket);
 
     // clean all buckets, except the last one:
@@ -121,7 +121,7 @@ CandleCreator.prototype.calculateCandles = function() {
       delete this.buckets[name];
 
     return candle;
-  }, this);
+  });
 
   return candles;
 }
@@ -178,7 +178,7 @@ CandleCreator.prototype.addEmptyCandles = function(candles) {
     i = +start;
     j++;
 
-    if(_.contains(minutes, i))
+    if(_.includes(minutes, i))
       continue; // we have a candle for this minute
 
     var lastPrice = candles[j].close;

@@ -42,10 +42,9 @@ Store.prototype.upsertTables = function() {
   ];
 
   var next = _.after(_.size(createQueries), this.done);
-  var db = this.db;
 
-  _.each(createQueries, function(q) {
-    db.run(q, next);
+  _.each(createQueries, q => {
+    this.db.run(q, next);
   });
 }
 

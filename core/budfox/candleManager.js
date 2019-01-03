@@ -14,7 +14,7 @@ var log = require(dirs.core + 'log');
 var CandleCreator = require(dirs.budfox + 'candleCreator');
 
 var Manager = function() {
-  _.bindAll(this, ['processTrades']);
+  _.bindAll(this, ['processTrades', 'relayCandles']);
 
   this.candleCreator = new CandleCreator;
 
