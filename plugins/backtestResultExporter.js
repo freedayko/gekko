@@ -33,7 +33,7 @@ const BacktestResultExporter = function() {
   if(!config.backtestResultExporter.data.trades)
     this.processTradeCompleted = null;
 
-  _.bindAll(this);
+  _.bindAll(this, ['processStratCandle', 'processRoundtrip', 'processTradeCompleted']);
 }
 
 BacktestResultExporter.prototype.processPortfolioValueChange = function(portfolio) {

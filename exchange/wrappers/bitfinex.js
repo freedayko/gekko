@@ -281,21 +281,17 @@ Trader.prototype.getTrades = function(since, callback, descending) {
 
     var trades = _.map(data, function(trade) {
       return {
-        tid: trade.tid, 
-        date:  trade.timestamp, 
+        tid: trade.id, 
+        date:  moment(trade.mts).format('X'), 
         price: +trade.price, 
-        amount: +trade.amount
+        amount: +Math.abs(trade.amount),
       }
     });
 
     callback(undefined, descending ? trades : trades.reverse());
   };
 
-  var path = this.pair; 
-  if(since) 
-    path += '?limit_trades=2000'; 
-
-  const handler = cb => this.bitfinex.trades(path, this.handleResponse('getTrades', cb));
+  const handler = cb => this.bitfinex.trades('t' + this.pair, (since ? since.valueOf() : null), null, 1000, null, this.handleResponse('getTrades', cb));
   retry(null, handler, processResponse);
 }
 

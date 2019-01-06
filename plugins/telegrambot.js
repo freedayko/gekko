@@ -8,7 +8,7 @@ const utc = moment.utc;
 const telegram = require("node-telegram-bot-api");
 
 const Actor = function() {
-  _.bindAll(this);
+  _.bindAll(this, ['verifyQuestion', 'processCandle']);
 
   this.advice = null;
   this.adviceTime = utc();

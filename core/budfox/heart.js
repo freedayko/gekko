@@ -16,7 +16,7 @@ else
 var Heart = function() {
   this.lastTick = false;
 
-  _.bindAll(this);
+  _.bindAll(this, ['tick']);
 }
 
 util.makeEventEmitter(Heart);
